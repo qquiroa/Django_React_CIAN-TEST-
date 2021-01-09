@@ -1,15 +1,15 @@
-import { GET_LEADS } from '../actions/types.js'
+import { GET_CATEGORIES } from '../actions/types.js'
 
 const initialState = {
-    leads: []
+    categories: []
 }
 
 export default function( state = initialState, action ) {
     switch(action.type){
-        case GET_LEADS:
+        case GET_CATEGORIES:
             return {
                 ...state,
-                leads: action.payload
+                categories: action.payload
             }
         default:
             return state

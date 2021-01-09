@@ -1,12 +1,12 @@
 import axios from 'axios'
 
-import { GET_LEADS } from './types'
+import { GET_CATEGORIES } from './types'
 
-export const getLeads = () => dispatch => {
-    axios.get('/api/')
+export const getCategories = () => dispatch => {
+    axios.get('/api/categories')
         .then(res => {
             dispatch({
-                type: GET_LEADS,
+                type: GET_CATEGORIES,
                 payload: res.data
             })
         })

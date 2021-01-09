@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import ReactDOM from 'react-dom'
 
 import Header from './layout/Header'
+import ShowCategories from '../components/categories/ShowCategories'
 
 import { Provider } from 'react-redux'
 import store from '../store'
@@ -12,6 +13,7 @@ class App extends Component {
             <Provider store={store}>
                 <Fragment>
                     <Header />
+                    <ShowCategories />
                 </Fragment>
             </Provider>
         )
