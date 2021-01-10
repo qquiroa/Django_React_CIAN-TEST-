@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, LOGOUT_FAIL, REGISTER_SUCCESS, REGISTER_FAIL } from '../actions/types'
+import { USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, LOGOUT_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, SHOW_ALERT } from '../actions/types'
 
 export const login = (username, password) => (dispatch, getState) => {
 
@@ -15,8 +15,15 @@ export const login = (username, password) => (dispatch, getState) => {
             })
         })
         .catch(err => {
-            console.log(err)
             dispatch({ type: LOGIN_FAIL })
+            dispatch({ 
+                type: SHOW_ALERT,
+                payload: {
+                    type: "ERROR",
+                    message: "Credenciales incorrectas",
+                    code: err.response.status
+                }
+            })
         })
 }
 
@@ -34,8 +41,15 @@ export const register = (username, email, password) => (dispatch, getState) => {
             })
         })
         .catch(err => {
-            console.log(err)
             dispatch({ type: REGISTER_FAIL })
+            dispatch({ 
+                type: SHOW_ALERT,
+                payload: {
+                    type: "ERROR",
+                    message: "Credenciales incorrectas",
+                    code: err.response.status
+                }
+            })
         })
 }
 
@@ -86,23 +100,14 @@ export const loadUser = () => (dispatch, getState) => {
             })
         })
         .catch(err => {
-            console.log(err)
             dispatch({ type: AUTH_ERROR })
+            dispatch({ 
+                type: SHOW_ALERT,
+                payload: {
+                    type: "ERROR",
+                    message: err.response.data.detail,
+                    code: err.response.status
+                }
+            })
         })
 }
-
-export const newUser = (username, email, password) => dispatch => {
-    axios.post('/api/auth/register', {
-        username,
-        email,
-        password
-    }).then(res => {
-        dispatch({
-            type: NEW_USER,
-            payload: res.data
-        })
-    })
-        .catch(err => {
-            console.log(err)
-        })
-} 

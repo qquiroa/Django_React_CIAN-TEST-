@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { login } from '../../actions/auth'
 import { Redirect } from 'react-router-dom'
+import Alerts from '../other/Alerts'
 
 export class Login extends Component {
     state = {
