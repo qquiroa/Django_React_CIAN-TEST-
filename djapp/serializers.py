@@ -22,6 +22,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         
         return user
 
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+    
+    def validate(self, data):
+        user = authenticate(**data)
+        if user and user.is_active:
+            return user
+        raise serializers.ValidationError("Incorrect Credentials")
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
