@@ -101,13 +101,13 @@ export const loadUser = () => (dispatch, getState) => {
         })
         .catch(err => {
             dispatch({ type: AUTH_ERROR })
-            dispatch({ 
+            /*dispatch({ 
                 type: SHOW_ALERT,
                 payload: {
                     type: "ERROR",
                     message: err.response.data.detail,
                     code: err.response.status
                 }
-            })
+            })*/
         })
 }

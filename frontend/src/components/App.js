@@ -10,7 +10,8 @@ import Register from './auth/register'
 import { default as OwnProductsIndex}  from './product/index'
 import { default as OwnProductsEdit } from './product/edit'
 import { default as OwnProductsCreate } from './product/new'
-import Home from './home'
+import Home from './controls/home'
+import Buy from './controls/buy'
 import PrivateRoute from '../components/other/PrivateRoute'
 import { loadUser } from '../actions/auth'
 
@@ -37,6 +38,7 @@ class App extends Component {
                             <Route exact path="/" component={Home} />
                             <Route exact path="/register" component={Register} />
                             <Route exact path="/login" component={Login} />
+                            <Route exact path="/buy/:id(\d+)" component={Buy} />
                             <PrivateRoute exact path="/own-products" component={OwnProductsIndex} />
                             <PrivateRoute exact path="/own-products/create" component={OwnProductsCreate} />
                             <PrivateRoute exact path="/own-products/:id(\d+)" component={OwnProductsEdit} />

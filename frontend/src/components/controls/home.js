@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { getProducts } from '../actions/home'
+import { getProducts } from '../../actions/home'
 import { Link } from "react-router-dom"
 
 export class Home extends Component {
@@ -26,7 +26,7 @@ export class Home extends Component {
                                 <li className="list-group-item">{"Precio: Q" + parseFloat(product.price).toFixed(2)}</li>
                                 <li className="list-group-item">{"Existencia: " + product.stock}</li>
                             </ul>
-                            <Link className="btn btn-primary"><li className="fa fa-shopping-cart"></li> Comprar</Link>
+                            <Link className="btn btn-primary" to={`/buy/${product.id}`}><li className="fa fa-shopping-cart"></li> Comprar</Link>
                         </div>
                     ))}
                 </div>

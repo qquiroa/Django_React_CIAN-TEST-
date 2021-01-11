@@ -5,6 +5,7 @@ import auth from './auth'
 import alert from './alert'
 import product from './product'
 import home from './home'
+import buy from './buy'
 
 export default combineReducers({
     categories,
@@ -12,5 +13,6 @@ export default combineReducers({
     user,
     alert,
     product,
-    home
+    home,
+    buy
 })

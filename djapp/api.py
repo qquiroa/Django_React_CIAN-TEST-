@@ -109,6 +109,7 @@ class OwnProductViewSet(viewsets.ModelViewSet):
 
 class ProductsViewSet(viewsets.ModelViewSet):
     serializer_class = OwnProductSerializer
+    queryset = Product.objects.all()
     permission_classes = [
         permissions.AllowAny
     ]
