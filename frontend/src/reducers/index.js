@@ -4,11 +4,13 @@ import user from './user'
 import auth from './auth'
 import alert from './alert'
 import product from './product'
+import home from './home'
 
 export default combineReducers({
     categories,
     auth,
     user,
     alert,
-    product
+    product,
+    home
 })

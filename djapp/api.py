@@ -107,6 +107,25 @@ class OwnProductViewSet(viewsets.ModelViewSet):
         except:
             return Response({'status': 'Not found.'}, 404)
 
+class ProductsViewSet(viewsets.ModelViewSet):
+    serializer_class = OwnProductSerializer
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    
+    def list(self, request):
+        user = self.request.user
+        if user.username:
+            product = Product.objects.filter(~Q(user=user))
+            return Response({
+                "products": OwnProductSerializer(product, many=True).data
+            })
+        else:
+            product = Product.objects.all()
+            return Response({
+                "products": OwnProductSerializer(product, many=True).data
+            })
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     permission_classes = [

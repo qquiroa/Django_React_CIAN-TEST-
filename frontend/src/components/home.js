@@ -1,26 +1,17 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { getProducts } from '../actions/home'
 import { Link } from "react-router-dom"
-import PropTypes from 'prop-types'
-import { getOwnProducts } from '../../actions/product'
-import { Redirect } from 'react-router-dom'
-import Alerts from '../other/Alerts'
 
-export class Index extends Component {
+export class Home extends Component {
+
     componentDidMount() {
-        this.props.getOwnProducts()
+        this.props.getProducts()
     }
 
     render() {
         return (
             <Fragment>
-                <div className="container">
-                    <div className="d-flex flex-row-reverse">
-                        <div className="p-2">
-                            <Link className="btn btn-outline-success" to="/own-products/create"><i className="fa fa-plus"></i> Nuevo producto</Link>
-                        </div>
-                    </div>
-                </div>
                 <div className="d-flex align-content-start justify-content-center flex-wrap">
                     {this.props.products.map(product => (
                         <div className="card" style={{ width: "18rem" }} key={product.id}>
@@ -35,7 +26,7 @@ export class Index extends Component {
                                 <li className="list-group-item">{"Precio: Q" + parseFloat(product.price).toFixed(2)}</li>
                                 <li className="list-group-item">{"Existencia: " + product.stock}</li>
                             </ul>
-                            <Link className="btn btn-primary" to={`/own-products/${product.id}`}><li className="fa fa-pencil"></li> Editar</Link>
+                            <Link className="btn btn-primary"><li className="fa fa-shopping-cart"></li> Comprar</Link>
                         </div>
                     ))}
                 </div>
@@ -45,7 +36,7 @@ export class Index extends Component {
 }
 
 const mapStateToProps = state => ({
-    products: state.product.product
+    products: state.home.products
 })
 
-export default connect(mapStateToProps, { getOwnProducts })(Index)
+export default connect(mapStateToProps, { getProducts })(Home)

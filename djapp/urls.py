@@ -6,7 +6,8 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register('api/categories', CategoryViewSet, 'categories')
-router.register('api/auth/own-product', OwnProductViewSet, 'product')
+router.register('api/auth/own-product', OwnProductViewSet, 'own-product')
+router.register('api/products', ProductsViewSet, 'products')
 
 urlpatterns = router.urls + [
     path('api/auth', include('knox.urls')),
