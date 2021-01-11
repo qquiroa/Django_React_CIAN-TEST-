@@ -9,6 +9,7 @@ router.register('api/categories', CategoryViewSet, 'categories')
 router.register('api/auth/own-product', OwnProductViewSet, 'own-product')
 router.register('api/products', ProductsViewSet, 'products')
 router.register('api/buy', BuyViewSet, 'buy')
+router.register('api/dashboard', DashboardViewSet, 'dashboard')
 
 urlpatterns = router.urls + [
     path('api/auth', include('knox.urls')),

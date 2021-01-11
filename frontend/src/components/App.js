@@ -18,6 +18,7 @@ import { loadUser } from '../actions/auth'
 import { Provider } from 'react-redux'
 import store from '../store'
 import Login from './auth/login'
+import  Dashboard from './controls/dashboard';
 
 class App extends Component {
     componentDidMount() {
@@ -42,6 +43,7 @@ class App extends Component {
                             <PrivateRoute exact path="/own-products" component={OwnProductsIndex} />
                             <PrivateRoute exact path="/own-products/create" component={OwnProductsCreate} />
                             <PrivateRoute exact path="/own-products/:id(\d+)" component={OwnProductsEdit} />
+                            <PrivateRoute exact path="/dashboard" component={Dashboard} />
                             
                         </Fragment>
                     </Router>

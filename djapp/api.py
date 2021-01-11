@@ -167,6 +167,46 @@ class BuyViewSet(viewsets.ModelViewSet):
         
         return Response({'status': 'Completed.'})
 
+class DashboardViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+    
+    def list(self, request):
+        user = self.request.user
+        perProduct = ReceiptDetail.objects.raw("""
+                                                SELECT a.id, sum(a.unitary_price*a.quantity) AS Total, b.name 
+                                                FROM djapp_receiptdetail a 
+                                                INNER JOIN djapp_product b ON a.product_id=b.id 
+                                                WHERE b.user_id={}
+                                                GROUP BY b.name
+                                            """.format(user.id))
+        serializer = DashboardSerializer(perProduct, many=True)
+        perProduct = serializer.data
+        globalProduct = ReceiptDetail.objects.raw("""
+                                                SELECT a.id, sum(a.unitary_price*a.quantity) AS Total
+                                                FROM djapp_receiptdetail a 
+                                                INNER JOIN djapp_product b ON a.product_id=b.id 
+                                                WHERE b.user_id={}
+                                            """.format(user.id))
+        serializer = DashboardSerializer(globalProduct, many=True)
+        globalProduct = serializer.data
+        if len(globalProduct) > 0:
+            globalProduct = globalProduct[0]
+        
+        avgPrice = ReceiptDetail.objects.raw("""
+                                                SELECT id, AVG(price) as Total 
+                                                FROM djapp_product 
+                                                WHERE user_id={}
+                                            """.format(user.id))
+        serializer = DashboardSerializer(avgPrice, many=True)
+        avgPrice = serializer.data
+        
+        if len(avgPrice) > 0:
+            avgPrice = avgPrice[0]
+        
+        return Response({'perProduct': perProduct, 'globalProduct': globalProduct, 'avgPrice': avgPrice})
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     permission_classes = [

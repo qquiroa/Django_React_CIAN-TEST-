@@ -6,6 +6,7 @@ import alert from './alert'
 import product from './product'
 import home from './home'
 import buy from './buy'
+import dashboard from './dashboard'
 
 export default combineReducers({
     categories,
@@ -14,5 +15,6 @@ export default combineReducers({
     alert,
     product,
     home,
-    buy
+    buy,
+    dashboard
 })

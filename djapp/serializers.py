@@ -48,6 +48,11 @@ class BuySerializer(serializers.ModelSerializer):
         model = ReceiptDetail
         fields = '__all__'
 
+class DashboardSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    Total = serializers.IntegerField()
+    name = serializers.CharField(allow_blank=True, required=False)
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
