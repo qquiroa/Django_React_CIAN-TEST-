@@ -2,8 +2,19 @@ import axios from 'axios'
 
 import { GET_CATEGORIES } from './types'
 
-export const getCategories = () => dispatch => {
-    axios.get('/api/categories')
+export const getCategories = () => (dispatch, getState) => {
+
+    const token = getState().auth.token,
+        config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+    if (token) {
+        config.headers['Authorization'] = 'Token ' + token
+    }
+    axios.get('/api/categories', config)
         .then(res => {
             dispatch({
                 type: GET_CATEGORIES,

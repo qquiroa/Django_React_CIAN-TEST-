@@ -24,6 +24,9 @@ export class Header extends Component {
                     <Link className="nav-link" to="/">Home</Link>
                 </li>
                 <li className="nav-item">
+                    <Link className="nav-link" to="/own-products">Mis productos</Link>
+                </li>
+                <li className="nav-item">
                     <button onClick={this.props.logout}  className="btn btn-link nav-link">Cerrar sesión</button>
                 </li>
             </ul>

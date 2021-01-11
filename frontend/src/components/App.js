@@ -7,6 +7,9 @@ import Alerts from "./other/Alerts";
 
 import Header from './layout/Header'
 import Register from './auth/register'
+import { default as OwnProductsIndex}  from './product/index'
+import { default as OwnProductsEdit } from './product/edit'
+import { default as OwnProductsCreate } from './product/new'
 import PrivateRoute from '../components/other/PrivateRoute'
 import { loadUser } from '../actions/auth'
 
@@ -32,6 +35,10 @@ class App extends Component {
                             <Alerts />
                             <Route exact path="/register" component={Register} />
                             <Route exact path="/login" component={Login} />
+                            <PrivateRoute exact path="/own-products" component={OwnProductsIndex} />
+                            <PrivateRoute exact path="/own-products/create" component={OwnProductsCreate} />
+                            <PrivateRoute exact path="/own-products/:id(\d+)" component={OwnProductsEdit} />
+                            
                         </Fragment>
                     </Router>
                 </AlertProvider>

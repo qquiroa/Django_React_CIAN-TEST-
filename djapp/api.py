@@ -43,8 +43,8 @@ class UserAPI(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
 
-class ProductViewSet(viewsets.ModelViewSet):
-    serializer_class = ProductSerializer
+class OwnProductViewSet(viewsets.ModelViewSet):
+    serializer_class = OwnProductSerializer
     queryset = Product.objects.all()
     permission_classes = [
         permissions.IsAuthenticated
@@ -56,15 +56,15 @@ class ProductViewSet(viewsets.ModelViewSet):
         file = payload['image']
         user = self.request.user
         category = Category.objects.get(id=payload["id_category"])
-        payload.pop("id_category")
         payload.pop("image")
         payload = json.loads(json.dumps(payload))
+        payload.pop("id_category")
         product = Product(**payload, user=user, category=category)
         product.save()
-        image_path = os.path.dirname(os.path.abspath(__file__)) + '/images/' + str(product.user.id) + '/' + str(product.id) + '/image.png'
-        image_path = image_path.replace("\\", "/")
+        image_path = '/static/frontend/img/' + str(product.user.id) + '/' + str(product.id) + '/image.png'
         product = Product.objects.get(id=product.id)
-        product.image_path = image_path
+        product.image_path = '.' + image_path
+        image_path = os.path.abspath(os.getcwd()) + '/frontend' + image_path
         default_storage.save(image_path, ContentFile(file.read()))
         product.save()
         return Response({
@@ -73,9 +73,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     
     def list(self, request):
         user = self.request.user
-        product = Product.objects.filter(~Q(user=user))
+        product = Product.objects.filter(Q(user=user))
         return Response({
-            "products": ProductSerializer(product, many=True).data
+            "products": OwnProductSerializer(product, many=True).data
         })
     
     def update(self, request, pk=None):

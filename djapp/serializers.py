@@ -34,7 +34,7 @@ class LoginSerializer(serializers.Serializer):
             return user
         raise serializers.ValidationError("Incorrect Credentials")
 
-class ProductSerializer(serializers.ModelSerializer):
+class OwnProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
