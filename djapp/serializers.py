@@ -43,6 +43,11 @@ class OwnProductSerializer(serializers.ModelSerializer):
         product = Product(**validated_data)
         return product
 
+class BuySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReceiptDetail
+        fields = '__all__'
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category

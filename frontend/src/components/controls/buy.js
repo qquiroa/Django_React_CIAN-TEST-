@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { getProduct } from '../../actions/buy'
-import { Link } from "react-router-dom"
-import product from '../../reducers/product'
+import { getProduct, buyProduct } from '../../actions/buy'
+import { Redirect } from 'react-router-dom'
 
 export class Buy extends Component {
 
@@ -25,7 +24,7 @@ export class Buy extends Component {
     }
     onSubmit = e => {
         e.preventDefault()
-        
+        this.props.buyProduct(this.state)
     }
 
     componentDidMount() {
@@ -45,12 +44,16 @@ export class Buy extends Component {
     render() {
         const product = this.props.product,
             { full_name, nit, address, total, id_product, quantity, unitary_price, stock } = this.state
+        
+            if(this.props.buy_sucess){
+                return <Redirect to="/" />
+            }
         return (
             <Fragment>
                 <div className="container">
                     <br />
                     <div className="row">
-                        <div class="d-flex justify-content-start col">
+                        <div className="d-flex justify-content-start col">
                             <div className="col-md-10 m-auto">
                                 <div className="card card-body mt-5">
                                     <center>
@@ -106,7 +109,8 @@ export class Buy extends Component {
 }
 
 const mapStateToProps = state => ({
-    product: state.buy.product
+    product: state.buy.product,
+    buy_sucess: state.buy.buy_sucess
 })
 
-export default connect(mapStateToProps, { getProduct })(Buy)
+export default connect(mapStateToProps, { getProduct, buyProduct })(Buy)

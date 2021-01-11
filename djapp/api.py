@@ -1,7 +1,7 @@
 import json
 from .models import *
 from .serializers import *
-from django.db.models import Q
+from django.db.models import Q, F
 from rest_framework.response import Response
 from knox.models import AuthToken
 from django.core.files.base import ContentFile
@@ -9,6 +9,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.decorators import parser_classes
 from django.core.files.storage import default_storage
 from rest_framework import viewsets, permissions, generics
+from django.db import transaction
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -126,6 +127,45 @@ class ProductsViewSet(viewsets.ModelViewSet):
             return Response({
                 "products": OwnProductSerializer(product, many=True).data
             })
+
+class BuyViewSet(viewsets.ModelViewSet):
+    serializer_class = BuySerializer
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    
+    @transaction.atomic
+    def create(self, request):
+        user = self.request.user
+        payload = request.data
+        full_name = payload["full_name"]
+        nit = payload["nit"]
+        address = payload["address"]
+        total = payload["total"]
+        if not user.username:
+            user = None
+        receipt_header = ReceiptHeader(
+                            full_name=full_name,
+                            nit=nit,
+                            address=address,
+                            total=total,
+                            user=user
+                        )
+        receipt_header.save()
+        product = Product.objects.get(id=payload["id_product"])
+        quantity = payload["quantity"]
+        unitary_price = payload["unitary_price"]
+        receipt_detail = ReceiptDetail(
+                            product=product,
+                            quantity=quantity,
+                            unitary_price=unitary_price,
+                            receipt_header=receipt_header
+                        )
+        receipt_detail.save()
+        product.stock = F('stock') - quantity
+        product.save()
+        
+        return Response({'status': 'Completed.'})
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
