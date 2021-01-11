@@ -1,7 +1,9 @@
-from djapp.models import *
+from .models import *
 from rest_framework import serializers
+from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+import os
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,6 +33,15 @@ class LoginSerializer(serializers.Serializer):
         if user and user.is_active:
             return user
         raise serializers.ValidationError("Incorrect Credentials")
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
+    
+    def create(self, validated_data):
+        product = Product(**validated_data)
+        return product
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:

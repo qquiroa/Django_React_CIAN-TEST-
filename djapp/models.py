@@ -9,7 +9,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
     stock = models.IntegerField()
-    image_path = models.TextField()
+    image_path = models.TextField(null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
